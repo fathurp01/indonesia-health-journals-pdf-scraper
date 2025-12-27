@@ -1,0 +1,2 @@
+scrapy>=2.11,<3.0
+langdetect>=1.0.9

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+ENV/
+
+# VS Code
+.vscode/
+
+# Scrapy
+.scrapy/
+jobstate/
+
+# Outputs / artifacts
+jurnal_kesehatan_indonesia.csv
+downloaded_pdfs/
+
+# OS
+Thumbs.db
+.DS_Store
