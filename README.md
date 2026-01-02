@@ -1,6 +1,6 @@
 ## Journal Scraping (Indonesia - Health/Medical)
 
-Scrapy project to collect Indonesian-language **health/medical** article records from DOAJ and automatically download the **PDF fulltext** (when available).
+Scrapy project to collect Indonesian-language **health/medical** article records from DOAJ and automatically download the **PDF full text** (when available).
 
 ### What you get
 - CSV index: `jurnal_kesehatan_indonesia.csv` (UTF-8)
@@ -16,17 +16,17 @@ python -m pip install -r requirements.txt
 scrapy crawl doaj_kesehatan_id
 ```
 
-Set jumlah total PDF (override default) dan lanjut tanpa duplikasi:
+Set the total PDF target (override default) and continue without duplicates:
 ```bash
 scrapy crawl doaj_kesehatan_id -s MAX_PDFS=800
 ```
 
-Toggle penamaan file PDF:
-- Default (judul artikel + suffix hash pendek):
+Toggle PDF filename strategy:
+- Use article title (slug) + short hash suffix:
 	```bash
 	scrapy crawl doaj_kesehatan_id -s PDF_FILENAME_BY_TITLE=True
 	```
-- Kembali ke nama hash penuh (stabil dari URL):
+- Use full hash filename (stable from URL):
 	```bash
 	scrapy crawl doaj_kesehatan_id -s PDF_FILENAME_BY_TITLE=False
 	```
@@ -54,14 +54,14 @@ scrapy crawl doaj_kesehatan_id -s LOG_LEVEL=INFO
 - PDFs are downloaded via Scrapy `FilesPipeline`.
 - Crawl stops automatically after **N successful PDF downloads** (`MAX_PDFS`).
 
-### Resume / anti-duplikasi lintas-run
-- `jurnal_kesehatan_indonesia.csv` dipakai sebagai **index/progress**: saat start, spider membaca CSV ini untuk
-	menghindari duplikasi dan menghitung berapa PDF yang sudah ada di disk.
-- Scheduler state juga disimpan di `jobstate/` (Scrapy `JOBDIR`) agar bisa resume jika proses terhenti.
-- Kalau kamu sudah punya target sebelumnya lalu ingin menaikkan target (mis. 450 → 800), cukup jalankan ulang dengan `-s MAX_PDFS=800`.
+### Resume / cross-run de-duplication
+- `jurnal_kesehatan_indonesia.csv` is used as an **index/progress file**: on startup, the crawler reads this CSV to
+	avoid duplicates and count how many PDFs already exist on disk.
+- Scheduler state is also stored in `jobstate/` (Scrapy `JOBDIR`) to support resuming after an interruption.
+- If you already reached a previous target and want to extend it (e.g. 450 → 800), rerun with `-s MAX_PDFS=800`.
 
 ### Default target
-- Default target saat ini: **450 PDF** (lihat `MAX_PDFS` di `jurnal_scraping/settings.py`).
+- Current default target: **450 PDFs** (see `MAX_PDFS` in `jurnal_scraping/settings.py`).
 
 ### Stability & ethics
 - Obeys `robots.txt`
