@@ -39,31 +39,27 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.retry.RetryMiddleware": 550,
 }
 
-MAX_ITEMS = 400
-MAX_PDFS = 400
+MAX_ITEMS = 450
+MAX_PDFS = 450
 ITEM_PIPELINES = {
     "jurnal_scraping.pipelines.ValidateDedupLimitPipeline": 200,
     "jurnal_scraping.pipelines.PdfDownloadPipeline": 300,
+    "jurnal_scraping.pipelines.CsvAppendPipeline": 400,
 }
 FILES_STORE = "downloaded_pdfs"
 MEDIA_ALLOW_REDIRECTS = True
 
-FEEDS = {
-    "jurnal_kesehatan_indonesia.csv": {
-        "format": "csv",
-        "encoding": "utf-8",
-        "overwrite": True,
-        "fields": [
-            "journal_title",
-            "title",
-            "authors",
-            "affiliation",
-            "abstract",
-            "pdf_url",
-            "pdf_local_path",
-            "source_url",
-        ],
-    }
-}
+# PDF filename strategy
+# - False (default): pdfs/<sha1(pdf_url)>.pdf
+# - True          : pdfs/<slug(title)>-<short_hash>.pdf
+PDF_FILENAME_BY_TITLE = True
+PDF_FILENAME_HASH_LEN = 10
+PDF_FILENAME_SLUG_MAXLEN = 120
+
+# Persist scheduler/dupefilter state for resume.
+JOBDIR = "jobstate"
+
+# Where the index CSV is written/appended.
+CSV_OUTPUT = "jurnal_kesehatan_indonesia.csv"
 
 LOG_LEVEL = "INFO"

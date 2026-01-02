@@ -58,7 +58,6 @@ class DoajKesehatanIndonesiaSpider(scrapy.Spider):
             url,
             callback=self.parse_search,
             errback=self.errback_log,
-            dont_filter=True,
             meta={
                 "query": query,
                 "page": page,
@@ -113,7 +112,6 @@ class DoajKesehatanIndonesiaSpider(scrapy.Spider):
                     landing_url,
                     callback=self.parse_landing,
                     errback=self.errback_log,
-                    dont_filter=True,
                     meta={
                         "item": item,
                         "handle_httpstatus_list": [400, 401, 403, 404, 429, 500, 502, 503, 504],
